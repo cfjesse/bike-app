@@ -107,8 +107,6 @@ export class HomeComponent implements OnInit {
 
   onValidateRow(bike: IBikeEntity, key: string) {
 
-    console.log(`*** validRow`, bike);
-
     if(key === 'model') {
       this.inputValidation[key] = bike[key].length > 2;
     }
