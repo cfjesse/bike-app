@@ -9,6 +9,9 @@ import { DialogModule } from 'primeng/dialog';
 import {InputTextModule} from 'primeng/inputtext';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
+
+import { ToastModule } from 'primeng/toast';
 
 const modules = [
   TableModule,
@@ -19,7 +22,8 @@ const modules = [
   DialogModule,
   InputTextModule,
   ConfirmDialogModule,
-  DynamicDialogModule
+  DynamicDialogModule,
+  ToastModule
 ];
 
 @NgModule({
@@ -32,7 +36,8 @@ const modules = [
     ...modules
   ],
   providers: [
-    DialogService
+    DialogService,
+    MessageService
   ]
 })
 export class SharedModule { }

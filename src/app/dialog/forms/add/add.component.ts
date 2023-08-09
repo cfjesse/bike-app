@@ -1,3 +1,4 @@
+import { BikeService } from './../../../services/bike.service';
 import { ManufacturerService } from './../../../services/manufacturer.service';
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
@@ -22,23 +23,30 @@ export class AddComponent implements OnInit {
   constructor(
     public ref: DynamicDialogRef, 
     public config: DynamicDialogConfig,
-    private dropdownService: ManufacturerService
+    private dropdownService: ManufacturerService,
+    private bikeService: BikeService
   ) { }
 
   ngOnInit(): void {
 
-   
     this.dropdownService.manufacturer.subscribe(manufacturerList => {
-         this.manufacturerList = manufacturerList;
-         this.manufacturerList.forEach(item => {
-           this.manufacturerKeys[item.id] = item.name;
-         })
-       });
+      this.manufacturerList = manufacturerList;
+      this.manufacturerList.forEach(item => {
+        this.manufacturerKeys[item.id] = item.name;
+      })
+    });
       
   }
 
 
   onSave(): void {
-
+    this.bikeService.insertBike(this.bike).subscribe({
+      next: () => {
+        this.ref.close(true);
+      },
+      error: () => {
+        this.ref.close(false);
+      }
+    })
   }
 }

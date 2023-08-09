@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IBikeEntity, IManufacturer } from '../../interfaces/bike.interface';
+import { IBaseBikeEntity, IBikeEntity, IManufacturer } from '../../interfaces/bike.interface';
 import { baseUrl } from './app.settings'
 
 @Injectable({
@@ -20,7 +20,7 @@ export class BikeService {
     return this.http.put<IBikeEntity>(`${baseUrl}/${id}`, { ...data }, { headers: this.headers })
   }
 
-  insertBike(data: IBikeEntity) {
+  insertBike(data: IBaseBikeEntity) {
     return this.http.post<IBikeEntity>(`${baseUrl}`, { ...data }, { headers: this.headers });
   }
 

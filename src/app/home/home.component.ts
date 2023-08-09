@@ -1,4 +1,4 @@
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 import { BikeService } from '../services/bike.service';
 import { IBikeEntity, IManufacturer } from '../../interfaces/bike.interface';
@@ -22,17 +22,22 @@ export class HomeComponent implements OnInit {
     private bikeService: BikeService, 
     private dropdownService: ManufacturerService,
     private confirmationService: ConfirmationService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
-    this.bikeService.bikeList.subscribe(bikeList => this.bikeList = bikeList);
+    this.refreshBikeList();
     this.dropdownService.manufacturer.subscribe(manufacturerList => {
       this.manufacturerList = manufacturerList;
       this.manufacturerList.forEach(item => {
         this.manufacturerKeys[item.id] = item.name;
       })
     });
+  }
+
+  refreshBikeList() {
+    this.bikeService.bikeList.subscribe(bikeList => this.bikeList = bikeList);
   }
 
   updateBike(id:number, bikeData: IBikeEntity) {
@@ -62,13 +67,12 @@ export class HomeComponent implements OnInit {
   }
 
   onRowEditSave(bike: IBikeEntity): void { 
-    console.log(`*** bike`, bike);
     this.bikeService.updateBike(bike.id, bike).subscribe({
       next: () => { 
         this.notify("Bike was was updated"); 
       },
       error: () => { 
-        this.notify("Updated failed");
+        this.notify("Updated failed", false);
         const index = this.bikeList.findIndex((listItem) => listItem.id === bike.id);
         this.bikeList[index] = this.cancelReference;
       }
@@ -84,25 +88,39 @@ export class HomeComponent implements OnInit {
       message: "Are you sure you want to delete?",
       accept:() => {
         this.bikeService.deleteBike(id).subscribe({
-          next: () => this.bikeService.bikeList.subscribe(updatedList => this.bikeList = updatedList),
-          error: () =>  this.notify("Delete failed")
+          next: () => {
+            this.refreshBikeList();
+            this.notify('Delete Successful');
+          },
+          error: () =>  this.notify("Delete failed", false)
         });
       }
     })
+  }
+
+  onValidateRow(bike: IBikeEntity, key: string) {
+
   }
 
   onAddRow(): void {
     const ref = this.dialogService.open(AddComponent, {
       header: 'Add New Bike',
       width: "50vw"
+    });
+    ref.onClose.subscribe((success: boolean) => {
+      if(success) {
+        this.refreshBikeList();
+        this.notify("Bike Added to list");
+      } else {
+      }
+    });
+  }
+
+  private notify(message: string, success = true): void {
+    this.messageService.add({
+      detail: message,
+      severity: success ? 'success' : 'error',
+      summary: success ? 'success' : 'error', 
     })
-  }
-
-  onValidateRow(bike: IBikeEntity, key: string): void {
-    
-  }
-
-  private notify(message: string): void {
-    console.log(message);
   }
 }

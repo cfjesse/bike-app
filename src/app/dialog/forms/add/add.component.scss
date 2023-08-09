@@ -1,6 +1,7 @@
 .add-component {
   .inline-flex-form {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 8px;
   }
 }
