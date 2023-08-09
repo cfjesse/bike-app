@@ -1,0 +1,71 @@
+<div class="home-component">
+  <div class="table-wrapper">
+    <p-table [value]="bikeList" dataKey="id" editMode="row">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Manufacturer </th>
+          <th>Model</th>
+          <th>Frame Size</th>
+          <th>Price</th>
+          <th style="min-width: 25%">
+            <button pButton pRipple type="button" label="add bike" icon="pi pi-plus" (click)="onAddRow()" class="p-button-rounded p-button-text"></button>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-bike let-editing="editing" let-index="rowIndex">
+        <tr [pEditableRow]="bike">
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-dropdown [options]="manufacturerList" appendTo="body" [(ngModel)]="bike.manufacturer" optionLabel="name" optionValue="id"></p-dropdown>
+              </ng-template>
+              <ng-template pTemplate="output">
+                  {{manufacturerKeys[bike.manufacturer]}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="bike.model" (ngModelChange)="onValidateRow(bike, 'model')">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{bike.model}}
+                </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <p-inputNumber [(ngModel)]="bike.frameSize" [min]="12" [max]="62" (onInput)="onValidateRow(bike, 'frameSize')"></p-inputNumber>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{bike.frameSize}}
+                </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <p-inputNumber [(ngModel)]="bike.price" mode="decimal" [minFractionDigits]="2" (onInput)="onValidateRow(bike, 'price')"></p-inputNumber>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{bike.price | currency:'USD'}}
+                </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <div>
+              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditStart(bike)" class="p-button-rounded p-button-text"></button>
+              <button *ngIf="!editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-trash" (click)="onRowEditDelete(bike.id)" class="p-button-rounded p-button-text p-button-danger"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(bike)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(index)" class="p-button-rounded p-button-text p-button-danger"></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-confirmDialog header="Confirm" icon="pi pi-exclamation-triangle"></p-confirmDialog>

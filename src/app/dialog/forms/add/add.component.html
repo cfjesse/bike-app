@@ -1,0 +1,28 @@
+<div class="add-component">
+  <div class="inline-flex-form">
+    <div class="column">
+      <label>Manufacturer</label>
+      <div class="control">
+        <p-dropdown [options]="manufacturerList" appendTo="body" [(ngModel)]="bike.manufacturer" optionLabel="name" optionValue="id"></p-dropdown>
+      </div>
+    </div>
+    <div class="column">
+      <label>Model</label>
+      <div class="control">
+        <input pInputText type="text" [(ngModel)]="bike.model">
+      </div>
+    </div>
+    <div class="column">
+      <label>Frame Size</label>
+      <div class="control">
+        <p-inputNumber [(ngModel)]="bike.frameSize" [min]="12" [max]="62"></p-inputNumber>
+      </div>
+    </div>
+    <div class="column">
+      <label>Price</label>
+      <div class="control">
+        <p-inputNumber [(ngModel)]="bike.price" mode="decimal" [minFractionDigits]="2"></p-inputNumber>
+      </div>
+    </div>
+  </div>
+</div>

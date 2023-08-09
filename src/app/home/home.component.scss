@@ -1,0 +1,13 @@
+.home-component {
+    .actions.add {
+        text-align: right;
+    }
+    .table-wrapper {
+        width: 75vw;
+        margin: 0 auto;
+    }
+
+    button:disabled {
+        opacity: .2;
+    }
+}

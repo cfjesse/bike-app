@@ -1,0 +1,24 @@
+
+::ng-deep p-toolbar {
+  .p-toolbar {
+    background: linear-gradient(to right, var(--teal-500) 0%, rgba(0, 0, 0, 0) 59%), linear-gradient(to top, var(--teal-800) 0%, var(--teal-700) 100%);
+    border-radius: 0;
+    border:0;
+    border-bottom: 2px solid  var(--teal-500);
+
+  }
+  img {
+    max-height: 32px;
+    mix-blend-mode: multiply;
+  }
+}
+
+.container {
+  padding-top: 16px;
+  height: calc(100vh - 89px);
+  background: linear-gradient(to top, rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 0) 100%), url('/assets/mountains.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+}
