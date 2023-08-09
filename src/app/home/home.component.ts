@@ -17,6 +17,13 @@ export class HomeComponent implements OnInit {
   manufacturerList: IManufacturer[] = [];
   cancelReference!: IBikeEntity; 
   manufacturerKeys: { [key: string]: string } = {};
+  isEditValid!: boolean;
+  inputValidation: { [key: string]: boolean; } = {
+    frameSize: true,
+    model: true,
+    price: true,
+    manufacturer: true
+  };
 
   constructor(
     private bikeService: BikeService, 
@@ -100,6 +107,21 @@ export class HomeComponent implements OnInit {
 
   onValidateRow(bike: IBikeEntity, key: string) {
 
+    console.log(`*** validRow`, bike);
+
+    if(key === 'model') {
+      this.inputValidation[key] = bike[key].length > 2;
+    }
+
+    if(key === 'price') {
+      this.inputValidation[key] = bike[key] > 10;
+    }
+
+    if(key === 'frameSize') {
+      this.inputValidation[key] = bike[key] > 7 && bike[key] < 69;
+    }
+
+    this.isEditValid = this.inputValidation['model'] && this.inputValidation['price'] && this.inputValidation['frameSize'];
   }
 
   onAddRow(): void {

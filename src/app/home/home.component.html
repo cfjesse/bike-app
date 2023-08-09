@@ -27,7 +27,7 @@
           <td>
             <p-cellEditor>
                 <ng-template pTemplate="input">
-                    <input pInputText type="text" [(ngModel)]="bike.model" (ngModelChange)="onValidateRow(bike, 'model')">
+                    <input pInputText type="text" [(ngModel)]="bike.model" [ngClass]="{'ng-invalid': !inputValidation['model'] }" (ngModelChange)="onValidateRow(bike, 'model')">
                 </ng-template>
                 <ng-template pTemplate="output">
                     {{bike.model}}
@@ -37,7 +37,7 @@
           <td>
             <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <p-inputNumber [(ngModel)]="bike.frameSize" [min]="12" [max]="62" (onInput)="onValidateRow(bike, 'frameSize')"></p-inputNumber>
+                  <p-inputNumber [(ngModel)]="bike.frameSize"  [ngClass]="{'ng-invalid': !inputValidation['frameSize'] }" [min]="8" [max]="68" (onInput)="onValidateRow(bike, 'frameSize')"></p-inputNumber>
                 </ng-template>
                 <ng-template pTemplate="output">
                   {{bike.frameSize}}
@@ -47,7 +47,7 @@
           <td>
             <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <p-inputNumber [(ngModel)]="bike.price" mode="decimal" [minFractionDigits]="2" (onInput)="onValidateRow(bike, 'price')"></p-inputNumber>
+                  <p-inputNumber [(ngModel)]="bike.price" mode="decimal" [minFractionDigits]="2" [ngClass]="{ 'ng-invalid': !inputValidation['price'] }" (onBlur)="onValidateRow(bike, 'price')" (onInput)="onValidateRow(bike, 'price')"></p-inputNumber>
                 </ng-template>
                 <ng-template pTemplate="output">
                   {{bike.price | currency:'USD'}}
@@ -58,7 +58,7 @@
             <div>
               <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditStart(bike)" class="p-button-rounded p-button-text"></button>
               <button *ngIf="!editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-trash" (click)="onRowEditDelete(bike.id)" class="p-button-rounded p-button-text p-button-danger"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(bike)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+              <button *ngIf="editing" [disabled]="!isEditValid" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(bike)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
               <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(index)" class="p-button-rounded p-button-text p-button-danger"></button>
             </div>
           </td>
